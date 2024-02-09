@@ -1,0 +1,120 @@
+::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1000px;
+  background-color: #c1c1c1;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #525252;
+}
+
+.border {
+  border: 1px solid red;
+  /* padding: 1rem; */
+}
+.border1 {
+  border: 1px solid rgb(89, 209, 42);
+  /* padding: 1rem; */
+}
+
+.danger {
+  color: #ff7782;
+}
+.button {
+  padding: 0.6rem;
+  color: #ff7782;
+  background-color: rgb(25, 70, 70);
+  display: inline-block;
+  border: 1px solid rgb(116, 221, 29);
+  margin: 0.2rem;
+}
+.button:hover {
+  cursor: pointer;
+}
+
+.XX {
+  top: 0;
+}
+.xxx {
+  color: red;
+}
+.YY {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  zoom: 3;
+  border: 1px solid rgb(40, 168, 18);
+}
+
+.box {
+  padding: 1rem;
+  border: 1px solid #a6b3ce;
+}
+
+.hover:hover {
+  /* margin: 1rem; */
+  border: 1px solid #a6b3ce;
+  background-color: #ff7782;
+  color: #d4a6a4;
+}
+.ol {
+  list-style-type: decimal;
+}
+.ol li {
+  margin: 0 0 0.5rem 1rem;
+}
+.primaryColor {
+  color: #ffbb55;
+  font-weight: 700;
+}
+.primaryColor1 {
+  color: #ffbb55;
+  font-weight: 700;
+}
+.flexAlign {
+  display: flex;
+  align-items: center;
+}
+
+.buttonRow {
+  display: grid;
+  grid-template-columns: 15% 80%; /* Set the column widths */
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+.buttonRow p:first-child {
+  text-align: center;
+}
+.CalculatorDialog {
+  zoom: "2";
+  border: "3px solid reds";
+}
+
+.modal {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
+  background-color: white;
+  border: 2px solid rgb(240, 240, 240);
+  border-radius: 12px;
+  position: absolute;
+  width: 250px;
+  top: 70px;
+  left: calc(50% - 125px);
+  bottom: 70px;
+  color: black;
+}
+
+.tooltip {
+  color: white;
+  background: #222;
+  border-radius: 4px;
+  padding: 4px;
+}
