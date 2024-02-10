@@ -2,7 +2,6 @@ import { useState, createContext, Profiler, Suspense } from "react";
 import { lazy } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/topbar.jsx";
-import SidebarComponent from "./scenes/global/Sidebar.jsx";
 import { MiniDrawer } from "./scenes/global/Sidebar.jsx";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme.js";

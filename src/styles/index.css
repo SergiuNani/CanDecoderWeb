@@ -34,39 +34,33 @@
 .button:hover {
   cursor: pointer;
 }
-
-.XX {
-  top: 0;
-}
-.xxx {
-  color: red;
-}
-.YY {
-  position: absolute;
-
-  top: 0;
-  right: 0;
-  zoom: 3;
-  border: 1px solid rgb(40, 168, 18);
-}
-
-.box {
-  padding: 1rem;
-  border: 1px solid #a6b3ce;
-}
-
-.hover:hover {
-  /* margin: 1rem; */
-  border: 1px solid #a6b3ce;
-  background-color: #ff7782;
-  color: #d4a6a4;
+p {
+  margin: 0;
+  padding: 0;
 }
 .ol {
   list-style-type: decimal;
 }
 .ol li {
   margin: 0 0 0.5rem 1rem;
+  list-style-type: decimal;
 }
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+input {
+  border: none;
+}
+input:focus {
+  border: none;
+  outline: none;
+}
+
 .primaryColor {
   color: #ffbb55;
   font-weight: 700;
