@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
-import { Box } from '@mui/material'
-import { useTheme } from '@mui/material'
-import { tokens } from '../theme'
+import { useEffect, useRef, useState } from "react";
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material";
+import { tokens } from "../theme";
 import {
   hex2bin,
   getMaxNumberFromStringRange,
   getRangeNumberFromStringRange,
-  bin2hex
-} from '../functions/NumberConversion'
-import { Registers_CANopen_LS } from '../App'
+  bin2hex,
+} from "../functions/NumberConversion";
+import { Registers_CANopen_LS } from "../App";
 
 const RegisterComponent = ({
   register,
@@ -16,48 +16,50 @@ const RegisterComponent = ({
   allowClickBox = false,
   tellParentValueChanged,
   ComponentHeight,
-  tabIndex
+  tabIndex,
 }) => {
   if (register == null) {
-    return <p></p>
+    return <p></p>;
   }
-  if (value == '') value = 0
-  const theme = useTheme()
-  const colors = tokens(theme.palette.mode)
-  const RegisterBodyRef = useRef()
+  if (value == "") value = 0;
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const RegisterBodyRef = useRef();
   useEffect(() => {
-    RegisterBodyRef.current.scrollTo(0, 0)
-  }, [register])
+    RegisterBodyRef.current.scrollTo(0, 0);
+  }, [register]);
 
-  const resolution = getMaxNumberFromStringRange(register.BitInfo[0].bit)
+  const resolution = getMaxNumberFromStringRange(register.BitInfo[0].bit);
 
-  var valueInBinary = hex2bin(value, resolution + 1)
-  valueInBinary = valueInBinary.split('')
+  var valueInBinary = hex2bin(value, resolution + 1);
+  valueInBinary = valueInBinary.split("");
 
   function MultipleBitsChoise2JSX(rowValue, rowBit, register, index) {
-    var copyArray = [...valueInBinary]
-    var range = getRangeNumberFromStringRange(rowBit)
-    copyArray = copyArray.splice(0, range).join('')
+    var copyArray = [...valueInBinary];
+    var range = getRangeNumberFromStringRange(rowBit);
+    copyArray = copyArray.splice(0, range).join("");
     const findResult = register.BitInfo[index].value.findIndex((iterate) => {
-      return iterate.bitValue === copyArray
-    })
+      return iterate.bitValue === copyArray;
+    });
 
     return rowValue.map((member, index) => (
       <Box
         key={member.bitValue}
         display="flex"
-        color={findResult === index ? `${colors.red[500]}` : 'inherit'}
+        color={findResult === index ? `${colors.red[500]}` : "inherit"}
       >
-        {member.bitValue && <p style={{ color: `${colors.blue[400]}` }}>{member.bitValue}</p>}
+        {member.bitValue && (
+          <p style={{ color: `${colors.blue[400]}` }}>{member.bitValue}</p>
+        )}
         <p>&nbsp;-&nbsp;</p>
         {member.info && <p>{member.info}</p>}
       </Box>
-    ))
+    ));
   }
 
   function SliceBitsGiveJSX(range) {
-    range = getRangeNumberFromStringRange(range)
-    var sliced = valueInBinary.splice(0, range)
+    range = getRangeNumberFromStringRange(range);
+    var sliced = valueInBinary.splice(0, range);
 
     var export1 = sliced.map((el, index) => (
       <p
@@ -67,32 +69,34 @@ const RegisterComponent = ({
         className="ClickableBit"
         style={{
           border: `1px solid ${colors.green[400]}`,
-          textAlign: 'center',
-          fontSize: '1.1rem',
-          fontWeight: el == 1 ? '500' : 'inherit',
+          textAlign: "center",
+          fontSize: "1.1rem",
+          fontWeight: el == 1 ? "500" : "inherit",
           color: el == 1 ? `${colors.red[500]}` : `${colors.primary[600]}`,
-          cursor: allowClickBox ? 'pointer' : 'default'
+          cursor: allowClickBox ? "pointer" : "default",
         }}
       >
         {el}
       </p>
-    ))
-    return export1
+    ));
+    return export1;
   }
   // When you click one of those boxes and the value turns into 1 or 0
   function handleBitBoxClick(e) {
     if (allowClickBox) {
-      if (e.target.innerText == '1') {
-        e.target.innerText = '0'
+      if (e.target.innerText == "1") {
+        e.target.innerText = "0";
       } else {
-        e.target.innerText = '1'
+        e.target.innerText = "1";
       }
 
-      var newValue = ''
-      RegisterBodyRef.current.querySelectorAll('.ClickableBit').forEach((el) => {
-        newValue = newValue.concat(el.innerText)
-      })
-      tellParentValueChanged(bin2hex(newValue), e.target.localName)
+      var newValue = "";
+      RegisterBodyRef.current
+        .querySelectorAll(".ClickableBit")
+        .forEach((el) => {
+          newValue = newValue.concat(el.innerText);
+        });
+      tellParentValueChanged(bin2hex(newValue), e.target.localName);
     }
   }
 
@@ -102,29 +106,27 @@ const RegisterComponent = ({
       tabIndex={tabIndex}
       style={{
         border: `1px solid ${colors.grey[400]}`,
-        width: '100%',
-        overflow: 'auto',
-        height: ComponentHeight ? ComponentHeight : '70vh',
-        background: `${colors.primary[300]}`
+        width: "100%",
+        overflow: "auto",
+        height: ComponentHeight ? ComponentHeight : "70vh",
+        background: `${colors.primary[300]}`,
       }}
       className="RegisterComponent_class"
     >
       {/* {'Index + Title  ----------------------------------------*/}
-      <Box
+      <div
         style={{
-          display: 'flex',
-          fontSize: '1.12rem',
+          display: "flex",
+          fontSize: "1.12rem",
           color: `${colors.yellow[400]}`,
-
-          justifyContent: 'center',
-          textAlign: 'center'
+          justifyContent: "center",
+          textAlign: "center",
         }}
-        className="HookForFocus"
       >
-        <h5>
+        <h5 style={{ margin: "0.5rem" }}>
           -- {register.Index} - {register.Title}
         </h5>
-      </Box>
+      </div>
 
       {/* {'One full Line  ------------------------------*/}
       {register.BitInfo.map((row, index) => (
@@ -132,25 +134,25 @@ const RegisterComponent = ({
           key={row.bit}
           style={{
             border: `1px solid ${colors.grey[400]}`,
-            display: 'grid',
-            gridTemplateColumns: '3.2rem auto 2rem',
+            display: "grid",
+            gridTemplateColumns: "3.2rem auto 2rem",
             // borderBottom: 'none',
-            justifyContent: 'baseline',
-            alignItems: 'center',
-            padding: '0.3rem',
-            marginRight: '0.3rem',
-            fontSize: '0.9rem',
-            color: `${colors.primary[600]}`
+            justifyContent: "baseline",
+            alignItems: "center",
+            padding: "0.3rem",
+            marginRight: "0.3rem",
+            fontSize: "0.9rem",
+            color: `${colors.primary[600]}`,
           }}
         >
           {/* {'Element 1 -  Logical bit order'} */}
           <Box
             style={{
-              fontSize: ' 1.3rem',
+              fontSize: " 1.3rem",
               color: `${colors.yellow[500]}`,
               // color: `${colors.red[200]}`,
-              textAlign: 'center',
-              fontWeight: '1500'
+              textAlign: "center",
+              fontWeight: "1500",
             }}
           >
             {row.bit}
@@ -161,13 +163,13 @@ const RegisterComponent = ({
               {row.info && (
                 <p
                   style={{
-                    color: `${colors.personal[300]}`
+                    color: `${colors.personal[300]}`,
                   }}
                 >
                   {row.info}
                 </p>
               )}
-              <Box style={{ marginLeft: '0.5rem' }}>
+              <Box style={{ marginLeft: "0.5rem" }}>
                 {MultipleBitsChoise2JSX(row.value, row.bit, register, index)}
               </Box>
             </Box>
@@ -176,7 +178,7 @@ const RegisterComponent = ({
               {row.info && (
                 <p
                   style={{
-                    color: `${colors.personal[300]}`
+                    color: `${colors.personal[300]}`,
                     // textAlign: 'center'
                     // fontSize: '1rem'
                   }}
@@ -191,12 +193,12 @@ const RegisterComponent = ({
                       //0 and 1 bits detailing
                       color: `${colors.primary[400]}`,
                       // color: `${colors.yellow[500]}`,
-                      fontSize: '1rem',
-                      marginLeft: '0.5rem',
-                      fontWeight: '750'
+                      fontSize: "1rem",
+                      marginLeft: "0.5rem",
+                      fontWeight: "750",
                     }}
                   >
-                    0{'  '}
+                    0{"  "}
                   </span>
                   {row.zero}
                 </p>
@@ -208,12 +210,12 @@ const RegisterComponent = ({
                       color: `${colors.primary[400]}`,
                       // color: `${colors.personal[100]}`,
 
-                      fontSize: '1rem',
-                      marginLeft: '0.5rem',
-                      fontWeight: '750'
+                      fontSize: "1rem",
+                      marginLeft: "0.5rem",
+                      fontWeight: "750",
                     }}
                   >
-                    1{'  '}
+                    1{"  "}
                   </span>
                   {row.one}
                 </p>
@@ -225,81 +227,84 @@ const RegisterComponent = ({
         </Box>
       ))}
     </Box>
-  )
-}
+  );
+};
 
-export default RegisterComponent
+export default RegisterComponent;
 
 export const RegisterTooltip = ({ objects, objectData, children }) => {
-  objects = objects.split(' / ')
-  objectData = objectData.split(' / ')
-  var foundRegisters = []
-  var registerData = []
+  objects = objects.split(" / ");
+  objectData = objectData.split(" / ");
+  var foundRegisters = [];
+  var registerData = [];
   objects.forEach((object, index) => {
-    object = object.toUpperCase()
-    if (object.slice(0, 2) == '0X' || object.slice(0, 2) == '#X') object = object.slice(2)
+    object = object.toUpperCase();
+    if (object.slice(0, 2) == "0X" || object.slice(0, 2) == "#X")
+      object = object.slice(2);
 
-    var filterResults = Registers_CANopen_LS.filter((register) => register.Index == object)
+    var filterResults = Registers_CANopen_LS.filter(
+      (register) => register.Index == object
+    );
 
     if (filterResults[0]) {
-      foundRegisters[foundRegisters.length] = filterResults[0]
-      registerData[registerData.length] = objectData[index]
+      foundRegisters[foundRegisters.length] = filterResults[0];
+      registerData[registerData.length] = objectData[index];
     }
-  })
+  });
 
   if (foundRegisters.length == 0) {
-    return <>{children}</>
+    return <>{children}</>;
   }
 
-  const theme = useTheme()
-  const colors = tokens(theme.palette.mode)
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
-  const [showRegister, setShowRegister] = useState(false)
+  const [showRegister, setShowRegister] = useState(false);
 
-  const [stayOpen, setStayOpen] = useState(false)
+  const [stayOpen, setStayOpen] = useState(false);
 
   const handleMouseOver = () => {
     if (!stayOpen) {
-      setShowRegister(true)
+      setShowRegister(true);
     }
-  }
+  };
 
   const handleMouseLeave = () => {
     if (!stayOpen) {
-      setShowRegister(false)
+      setShowRegister(false);
     }
-  }
+  };
   const handleClick = (event) => {
-    event.stopPropagation()
-    setShowRegister(true)
-    setStayOpen(true)
-  }
+    event.stopPropagation();
+    setShowRegister(true);
+    setStayOpen(true);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (stayOpen) {
         // Check if the click is outside of the component
-        setShowRegister(false)
-        setStayOpen(false)
+        setShowRegister(false);
+        setStayOpen(false);
       }
-    }
+    };
     if (stayOpen) {
       // Attach the event listener to the document when the component is mounted
-      document.addEventListener('click', handleClickOutside)
+      document.addEventListener("click", handleClickOutside);
 
       // Remove the event listener when the component is unmounted
       return () => {
-        document.removeEventListener('click', handleClickOutside)
-      }
+        document.removeEventListener("click", handleClickOutside);
+      };
     }
-  }, [stayOpen])
+  }, [stayOpen]);
 
   return (
     <Box
       style={{
-        position: 'relative',
-        display: 'inline-block',
-        cursor: 'pointer'
+        position: "relative",
+        display: "inline-block",
+        cursor: "pointer",
       }}
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
@@ -311,47 +316,47 @@ export const RegisterTooltip = ({ objects, objectData, children }) => {
         {showRegister && (
           <div
             style={{
-              position: 'absolute',
-              padding: '0.5rem',
-              top: '50%',
-              right: '100%',
-              transform: 'translate(0, -50%)',
-              borderRadius: '2rem',
-              backgroundColor: 'transparent',
-              textAlign: 'left',
-              justifyContent: 'center',
-              zIndex: '2'
+              position: "absolute",
+              padding: "0.5rem",
+              top: "50%",
+              right: "100%",
+              transform: "translate(0, -50%)",
+              borderRadius: "2rem",
+              backgroundColor: "transparent",
+              textAlign: "left",
+              justifyContent: "center",
+              zIndex: "2",
             }}
           >
             <>
               <span
                 style={{
-                  position: 'absolute',
-                  width: '0',
-                  height: '0',
-                  borderLeft: '0.7rem solid transparent',
-                  borderRight: '0.7rem solid transparent',
+                  position: "absolute",
+                  width: "0",
+                  height: "0",
+                  borderLeft: "0.7rem solid transparent",
+                  borderRight: "0.7rem solid transparent",
                   borderBottom: `1.5rem solid ${colors.red[500]}`,
-                  top: '50%',
-                  right: '0.1rem',
-                  transform: 'translateY(-50%) rotate(-90deg)'
+                  top: "50%",
+                  right: "0.1rem",
+                  transform: "translateY(-50%) rotate(-90deg)",
                 }}
               ></span>
               <div
                 style={{
-                  display: 'flex',
-                  gap: '0.3rem',
-                  marginRight: '1.2rem',
+                  display: "flex",
+                  gap: "0.3rem",
+                  marginRight: "1.2rem",
                   border: `3px solid ${colors.primary[400]}`,
                   background: `${colors.primary[300]}`,
-                  borderRadius: '1rem',
-                  padding: '0.8rem',
+                  borderRadius: "1rem",
+                  padding: "0.8rem",
                   minWidth:
                     foundRegisters.length == 1
-                      ? '25rem'
+                      ? "25rem"
                       : foundRegisters.length == 2
-                      ? '50rem'
-                      : '60rem'
+                      ? "50rem"
+                      : "60rem",
                 }}
               >
                 {foundRegisters.map((register, index) => {
@@ -362,7 +367,7 @@ export const RegisterTooltip = ({ objects, objectData, children }) => {
                       value={registerData[index]}
                       ComponentHeight="30rem"
                     />
-                  )
+                  );
                 })}
               </div>
             </>
@@ -372,5 +377,5 @@ export const RegisterTooltip = ({ objects, objectData, children }) => {
 
       {/* Children elements */}
     </Box>
-  )
-}
+  );
+};
